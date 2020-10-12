@@ -35,3 +35,16 @@ func headers(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+
+	// We register our handlers on server routes using the
+	// `http.HandleFunc` convenience function. It sets up
+	// the *default router* in the `net/http` package and
+	// takes a function as an argument.
+	http.HandleFunc("/hello", hello)
+	http.HandleFunc("/headers", headers)
+
+	// Finally, we call the `ListenAndServe` with the port
+	// and a handler. `nil` tells it to use the default
+	// router we've just set up.
+	http.ListenAndServe(":8090", nil)
+}
