@@ -1,4 +1,8 @@
 body{
     color: white;
-    background-color:rgb(51, 51, 51);
+    background-color:silver;
+}
+
+#orderbook{
+    display:flex;
 }
