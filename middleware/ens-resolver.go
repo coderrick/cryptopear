@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// Replace SECRET with your own access token for this example to work.
-	client, err := ethclient.Dial("http://127.0.0.1:7545") //https://mainnet.infura.io/v3/SECRET
+	client, err := ethclient.Dial("http://127.0.0.1:8545") //https://mainnet.infura.io/v3/SECRET
 	if err != nil {
 		panic(err)
 	}

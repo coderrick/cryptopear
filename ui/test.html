@@ -14,9 +14,71 @@
 
 <body>
     <header>
-    <h1>Crypto Pear</h1>
+    <p>Crypto Pear</p>
     <a href="#">Login</a>
     <a href="register.html">Signup</a>
+    <script>
+        window.onload = function () {
+        
+        var dataPoints = [];
+        
+        var chart = new CanvasJS.Chart("chartContainer", {
+            height:565,
+            animationEnabled: true,
+            theme: "dark2", // "light1", "light2", "dark1", "dark2"
+            exportEnabled: true,
+            title: {
+                text: "Netflix Stock Price in 2016"
+            },
+            subtitles: [{
+                text: "Weekly Averages"
+            }],
+            axisX: {
+                interval: 1,
+                valueFormatString: "MMM"
+            },
+            axisY: {
+                prefix: "$",
+                title: "Price"
+            },
+            toolTip: {
+                content: "Date: {x}<br /><strong>Price:</strong><br />Open: {y[0]}, Close: {y[3]}<br />High: {y[1]}, Low: {y[2]}"
+            },
+            data: [{
+                type: "candlestick",
+                yValueFormatString: "$##0.00",
+                dataPoints: dataPoints
+            }]
+        });
+        
+        $.get("https://canvasjs.com/data/gallery/javascript/netflix-stock-price.csv", getDataPointsFromCSV);
+        
+        function getDataPointsFromCSV(csv) {
+            var csvLines = points = [];
+            csvLines = csv.split(/[\r?\n|\r|\n]+/);
+            for (var i = 0; i < csvLines.length; i++) {
+                if (csvLines[i].length > 0) {
+                    points = csvLines[i].split(",");
+                    dataPoints.push({
+                        x: new Date(
+                            parseInt(points[0].split("-")[0]),
+                            parseInt(points[0].split("-")[1]),
+                            parseInt(points[0].split("-")[2])
+                        ),
+                        y: [
+                            parseFloat(points[1]),
+                            parseFloat(points[2]),
+                            parseFloat(points[3]),
+                            parseFloat(points[4])
+                        ]
+                    });
+                }
+            }
+            chart.render();
+        }
+        
+        }
+        </script>
 </header>
     <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
         <div class="mdl-tabs__tab-bar">
@@ -24,41 +86,32 @@
             <a href="#sales" class="mdl-tabs__tab">Sales</a>
             <a href="#pear-to-pear" class="mdl-tabs__tab">Pear to Pear</a>
         </div>
-
         <div class="mdl-tabs__panel is-active" id="markets">
-            <div id="chart"></div>
-            <div id="orderbook">
-                <div id="bid">
-                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
-                        <thead>
-                            <tr>
-                                <th class="mdl-data-table__cell--non-numeric">Material</th>
-                                <th>Quantity</th>
-                                <th>Unit price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-                                <td>25</td>
-                                <td>$2.90</td>
-                            </tr>
-                            <tr>
-                                <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-                                <td>50</td>
-                                <td>$1.25</td>
-                            </tr>
-                            <tr>
-                                <td class="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-                                <td>10</td>
-                                <td>$2.35</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="ask">
-                    <table class="mdl-data-table mdl-js-data-table">
+            <div class="grid-container">
+                <aside class="side">
+                    <h1 class="center-align">Markets</h1>
+                    <input type="text" placeholder="Search namse..." id="filterInput">
+                    <ul id="names" class="collection with-header">            
+                      <li class="collection-item"><a href="#">Abed</a></li>
+                      <li class="collection-item"><a href="#">Adam</a></li>
+                      <li class="collection-item"><a href="#">Alan</a></li>
+                      <li class="collection-item"><a href="#">Anna</a></li>
+                      <li class="collection-item"><a href="#">Antonio</a></li>
+                      <li class="collection-item"><a href="#">Axe</a></li>                  
+                      <li class="collection-item"><a href="#">Beckham</a></li>
+                      <li class="collection-item"><a href="#">Beth</a></li>
+                      <li class="collection-item"><a href="#">Bill</a></li>
+                      <li class="collection-item"><a href="#">Bob</a></li>
+                      <li class="collection-item"><a href="#">Brad</a></li>
+                      <li class="collection-item"><a href="#">Bunny</a></li>   
+                      <li class="collection-item"><a href="#">Carrie</a></li>
+                      <li class="collection-item"><a href="#">Cathy</a></li>
+                      <li class="collection-item"><a href="#">Courtney</a></li>
+                    </ul>
+                </aside>
+                <div class="chart" id="chartContainer" style="height: 370px; width: 100%;" ></div>
+                <div class="ask" id="ask">
+                    <table class="mdl-data-table mdl-js-data-table orderbooks">
                         <thead>
                             <tr>
                                 <th class="mdl-data-table__cell--non-numeric">Name</th>
@@ -95,14 +148,44 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="bid" id="bid">
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp orderbooks">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__cell--non-numeric">Material</th>
+                                <th>Quantity</th>
+                                <th>Unit price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
+                                <td>25</td>
+                                <td>$2.90</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
+                                <td>50</td>
+                                <td>$1.25</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
+                                <td>10</td>
+                                <td>$2.35</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            
+      
         </div>
         <!-- Sales -->
         <div class="mdl-tabs__panel" id="sales">
             <h1>Lists of marketplace items</h1>
             <!-- for loop to display all items in db from select statement -->
             <a href="#">
-                <div>
+                <div id="item">
                     <div id="item-image">{img}</div>
                     <div id="item-content">{data}</div>
                 </div>
@@ -111,9 +194,88 @@
         <!-- Pear to Pear trade -->
         <div class="mdl-tabs__panel" id="pear-to-pear">
             <h1>Trade with someone</h1>
+           
+              
+                <p>
+                Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+                ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+                amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+                odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+                </p>
+                
+                <aside class="alert success">
+              <p><i class="icon fa fa-envelope-o"></i> Roger Roger, Message Received. <i class="close fa fa-times"></i></p>
+            </aside><!-- end alert -->
+            
+            <!---
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+              <input class="form-control" type="password" placeholder="Password">
+            </div>
+            ---->
+            <input type="search" class="light-table-filter" data-table="order-table" placeholder="Filtrer" /> <a class="button"><i class="fa fa-exclamation-circle"></i> Report Error</a>
+                <section class="table-box">
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>john.doe@gmail.com</td>
+                                <td>0123456789</td>
+                                <td>99</td>
+                            </tr>
+                            <tr>
+                                <td>Jane Vanda</td>
+                                <td>jane@vanda.org</td>
+                                <td>9876543210</td>
+                                <td>349</td>
+                            </tr>
+                            <tr>
+                                <td>Alferd Penyworth</td>
+                                <td>alfred@batman.com</td>
+                                <td>7542890</td>
+                                <td>199</td>
+                            </tr>
+                            <tr>
+                                <td>Roger Thomas Alder</td>
+                                <td>roger@gmail.com</td>
+                                <td>2345689</td>
+                                <td>21399</td>
+                            </tr>
+                            <tr>
+                                <td>Vince Allen</td>
+                                <td>vince@vanda.org</td>
+                                <td>763210</td>
+                                <td>349</td>
+                            </tr>
+                            <tr>
+                                <td>Johnny Cashmere</td>
+                                <td>alfred@batman.com</td>
+                                <td>6754328901</td>
+                                <td>199S356</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                
+             
+                
+                <!-- jQuery via Google's CDN -->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         </div>
     </div>
-
+<!-- js libs -->
+<script src="ens-search.js"></script>
+<script src="script.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 </body>
 
 </html>
