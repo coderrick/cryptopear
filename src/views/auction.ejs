@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.amber-orange.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="/stylesheets/modals.css">
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script>
+        //   const provider = new ethers.providers.JsonRpcProvider("http://localhost:7545");
+        //   var ethers = require('ethers');  
+        const network = "homestead";
+
+// Specify your own API keys
+// Each is optional, and if you omit it the default
+// API key for that service will be used.
+const secureprovider = ethers.getDefaultProvider(network, {
+    // pocket: YOUR_POCKET_APPLICATION_KEY
+    // Or if using an application secret key:
+    pocket: {
+      applicationId: 'c902d7f9f761357dee17b20b9010b3d3981b8444',
+      applicationSecretKey:'7f56d42fd9d01ed6e505f58bbdb7c4afb990896cb515863264db82686f38a8108ff91886c9b01af9f0ab5b9893a8560bcd280da5a8fbabe75c81a7ea18a25d17'
+    }
+});
+        var url = 'http://localhost:7545';
+        var provider = new ethers.providers.JsonRpcProvider(url);
+        // const provider = new ethers.providers.Web3Provider(window.ethereum)
+        provider.getBlockNumber().then((result) => {
+            console.log("Current block number: " + result);
+        });
+        provider.getBalance("0x1de1c62459c69Cf303B8Bfbc10D99E72193A5935").then((result) => {
+            a = ethers.utils.formatEther(result)
+            console.log("balance: " + result);
+            console.log(a);
+        });
+
+        // const tx = signer.sendTransaction({
+        //     to: "0xD1877bF4e121f48bBE6959745680cFc183E15f17",
+        //     value: ethers.utils.parseEther("1.0")
+        // });
+
+//         async function init() {
+//         const params = [{
+//         from: '0x1de1c62459c69Cf303B8Bfbc10D99E72193A5935',
+//         to: '0xD1877bF4e121f48bBE6959745680cFc183E15f17',
+//         value: ethers.utils.parseEther("1.0")
+//     }];
+
+//     const transactionHash = await provider.send('eth_sendTransaction', params)
+//     console.log('transactionHash is ' + transactionHash);
+// }
+
+//ENS
+// provider.lookupAddress("0x6fC21092DA55B392b045eD78F4732bff3C580e2c");
+// provider.resolveName("ricmoo.firefly.eth");
+    </script>
+</head>
+
+<body>
+    <header>
+        <img src="/images/logo.png" height="10%" width="10%">
+        <ul id="navbar">
+            <li class="nav"><a href="/">Crypto Pear</a></li>
+            <li class="nav"><a href="#news">Documentation</a></li>
+            <li class="nav"><a href="#contact">Help</a></li>
+        </ul>
+
+    </header>
+    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+        <div class="mdl-tabs__tab-bar">
+            <a href="#markets" class="mdl-tabs__tab is-active">Markets</a>
+            <a href="#sales" class="mdl-tabs__tab">Sales</a>
+            <a href="#pear-to-pear" class="mdl-tabs__tab">Pear to Pear</a>
+        </div>
+        <div class="mdl-tabs__panel is-active" id="markets">
+            <div class="grid-container">
+                <aside class="side">
+                    <p class="center-align" style="font-size: 56px; color: white;">Shop</p>
+                    <!-- <input type="text" placeholder="Search namse..." id="filterInput"> -->
+                    <form action="#">
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" id="filterInput">
+                            <label class="mdl-textfield__label" for="sample1" style="color:white;">Search...</label>
+                        </div>
+                    </form>
+                    <ul id="names" class="collection with-header">
+                        <li class="collection-item"><a href="#">Apparel</a></li>
+                        <li class="collection-item"><a href="#">Art</a></li>
+                        <li class="collection-item"><a href="#">Auto</a></li>
+                        <li class="collection-item"><a href="#">Electronics</a></li>
+                        <li class="collection-item"><a href="#">Movies</a></li>
+                        <li class="collection-item"><a href="#">Home</a></li>
+                        <li class="collection-item"><a href="#">Games</a></li>
+                        <li class="collection-item"><a href="#">Music</a></li>
+                        <li class="collection-item"><a href="#">Pets</a></li>
+                        <li class="collection-item"><a href="#">Tools</a></li>
+                        <li class="collection-item"><a href="#">Travel</a></li>
+                        <li class="collection-item"><a href="#">Sports</a></li>
+                        <li class="collection-item"><a href="#">Office</a></li>
+                    </ul>
+                </aside>
+                <!-- <div class="chart" id="chartContainer" style="height: 370px; width: 100%;"></div> -->
+                <img src="https://storage.googleapis.com/graph-web/blog/1bn_dailyvolume.png" style="" alt="" srcset="">
+                <div class="ask" id="ask">
+                    <table class="mdl-data-table mdl-js-data-table orderbooks">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__cell--non-numeric">Agg total</th>
+                                <th class="mdl-data-table__cell--non-numeric">Total</th>
+                                <th>Quantity</th>
+                                <th class="mdl-data-table__cell--non-numeric">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td>0.260</td>
+                                <td class="mdl-data-table__cell--non-numeric">13,028.680</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td>0.260</td>
+                                <td class="mdl-data-table__cell--non-numeric">13,028.680</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td>0.260</td>
+                                <td class="mdl-data-table__cell--non-numeric">13,028.680</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td>0.260</td>
+                                <td class="mdl-data-table__cell--non-numeric">13,028.680</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td>0.260</td>
+                                <td class="mdl-data-table__cell--non-numeric">13,028.680</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bid" id="bid">
+                    <table class="mdl-data-table mdl-js-data-table orderbooks">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__cell--non-numeric">Agg total</th>
+                                <th class="mdl-data-table__cell--non-numeric">Total</th>
+                                <th>Quantity</th>
+                                <th class="mdl-data-table__cell--non-numeric">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td>0.260</td>
+                                <td class="mdl-data-table__cell--non-numeric">13,028.680</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td>0.260</td>
+                                <td class="mdl-data-table__cell--non-numeric">13,028.680</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td>0.260</td>
+                                <td class="mdl-data-table__cell--non-numeric">13,028.680</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td>0.260</td>
+                                <td class="mdl-data-table__cell--non-numeric">13,028.680</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td class="mdl-data-table__cell--non-numeric">3,386.8713</td>
+                                <td>0.260</td>
+                                <td class="mdl-data-table__cell--non-numeric">13,028.680</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- Sales -->
+        <script src="/javascripts/modals.js"></script>
+        <div class="mdl-tabs__panel" id="sales">
+            <div class='galery'>
+
+                <div class='image'>
+                    <!-- <img src='https://www.w3schools.com/css/img_5terre.jpg' /> -->
+                    <img src="https://images-na.ssl-images-amazon.com/images/I/51ZVqfOqElL._AC_SY355_.jpg" alt=""
+                        srcset="">
+                    <div class='desc'>
+                        DeepLee Projector
+                    </div>
+                    <div class='desc'>
+                        $71.00
+                    </div>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                        style="color:white;">
+                        Buy
+                    </button>
+                    <div class='dropdown'>
+                        <button href='#' class="dropbtn"><i class='fas fa-wrench'></i></button>
+                        <div class="dropdown-content">
+                            <a class='edit' href="#">Edit
+                                <input hidden value='0' name='id'></input>
+                            </a>
+                            <a class='deleteImage' href="#">Remove</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class='addNewImage'>Add new image</div> -->
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored addNewImage"
+                    style="margin:0; color:white;">
+                    <i class="material-icons">add</i>
+                </button>
+            </div>
+
+
+            <div id='AddImageModal' class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Add new Image</p>
+                        <button class="delete" aria-label="close"></button>
+                    </header>
+                    <section class="modal-card-body">
+
+
+                        <p>Image:</p>
+                        <div class="file">
+                            <label class="file-label">
+                                <input class="file-input" type="file" name="pic">
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">Choose a file…</span>
+                                </span>
+                            </label>
+                        </div>
+                        <p>Item Name:</p>
+                        <input name='desc'>
+                        <p>Price:</p>
+                        <input name='desc'>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button id='CompleteAddImage' class="button is-link">Add</button>
+                        <button class="button cancel">Cancel</button>
+                    </footer>
+                </div>
+            </div>
+
+
+            <div id='EditImageModal' class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Edit Image</p>
+                        <button class="delete" aria-label="close"></button>
+                    </header>
+                    <section class="modal-card-body">
+
+
+                        <p>Image:</p>
+                        <div class="file">
+                            <label class="file-label">
+                                <input class="file-input" type="file" name="pic">
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">Choose a file…</span>
+                                </span>
+                            </label>
+                        </div>
+                        <p>Description:</p>
+                        <input id='exampleEditDesc' class='textarea' name='desc'>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button id='CompleteEditImage' class="button is-success">Save</button>
+                        <button class="button cancel">Cancel</button>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <!-- Pear to Pear trade -->
+        <div class="mdl-tabs__panel" id="pear-to-pear" style="text-align: center; ">
+            <!---
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+              <input class="form-control" type="password" placeholder="Password">
+            </div>
+            ---->
+            <!-- <input type="search" class="light-table-filter" data-table="order-table" placeholder="Filtrer" /> <a class="button"><i class="fa fa-exclamation-circle"></i> Report Error</a> -->
+            <form action="#">
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" id="sample1">
+                    <label class="mdl-textfield__label" for="sample1">Search...</label>
+                </div>
+            </form>
+            <section class="table-box">
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp orderbooks">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>ENS Address</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alice</td>
+                            <td>alice@gmail.com</td>
+                            <td><a href="#"></a>alice.cryptopear.eth</a></td>
+
+                        </tr>
+                        <tr>
+                            <td>Bob</td>
+                            <td>Bob@gmail.com</td>
+                            <td>bob.cryptopear.eth</td>
+
+                        </tr>
+                        <tr>
+                            <td>John</td>
+                            <td>John@gmail.com</td>
+                            <td>john.cryptopear.eth</td>
+
+                        </tr>
+                        <tr>
+                            <td>Roger</td>
+                            <td>roger@gmail.com</td>
+                            <td>rodger.cryptopear.eth</td>
+
+                        </tr>
+                        <tr>
+                            <td>Vince</td>
+                            <td>vince@vanda.org</td>
+                            <td>vince.cryptopear.eth</td>
+
+                        </tr>
+                        <tr>
+                            <td>Johnny</td>
+                            <td>johnny@gmail.com</td>
+                            <td>Johnny.cryptopear.eth</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <a href='http://localhost:4000'><button
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                    style="color:white; padding-left: 50px; padding-right: 50px;top: 50px;">
+                    Trade
+                </button></a>
+
+
+
+            <!-- jQuery via Google's CDN -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        </div>
+    </div>
+    <!-- js libs -->
+    <script src="/javascripts/ens-search.js"></script>
+    <script src="/javascripts/script.js"></script>
+    <script src="/javascripts/modals.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+</body>
+
+</html>

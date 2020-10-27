@@ -7,9 +7,9 @@ import (
 	ens "github.com/wealdtech/go-ens/v3"
 )
 
-func main() {
+func Resolve() {
 	// Replace SECRET with your own access token for this example to work.
-	client, err := ethclient.Dial("http://127.0.0.1:8545") //https://mainnet.infura.io/v3/SECRET
+	client, err := ethclient.Dial("https://ropsten.infura.io/v3/183ed94c11e24f6bb9c61ebcd3bec522") //https://mainnet.infura.io/v3/SECRET
 	if err != nil {
 		panic(err)
 	}
